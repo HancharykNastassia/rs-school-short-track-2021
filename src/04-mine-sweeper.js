@@ -21,8 +21,27 @@
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new Error('Not implemented');
+function minesweeper(matrix) {
+  const minMap = matrix.map((row) => row.map(() => 0));
+  matrix.forEach((row, rindex) => {
+    row.forEach((item, cindex) => {
+      if (item) {
+        if (cindex > 0) minMap[rindex][cindex - 1] += 1;
+        if (cindex < row.length - 1) minMap[rindex][cindex + 1] += 1;
+        if (rindex > 0) {
+          if (cindex > 0) minMap[rindex - 1][cindex - 1] += 1;
+          minMap[rindex - 1][cindex] += 1;
+          if (cindex < row.length - 1) minMap[rindex - 1][cindex + 1] += 1;
+        }
+        if (rindex < matrix.length - 1) {
+          if (cindex > 0) minMap[rindex + 1][cindex - 1] += 1;
+          minMap[rindex + 1][cindex] += 1;
+          if (cindex < row.length - 1) minMap[rindex + 1][cindex + 1] += 1;
+        }
+      }
+    });
+  });
+  return minMap;
 }
 
 module.exports = minesweeper;
